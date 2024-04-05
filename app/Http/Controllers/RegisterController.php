@@ -106,52 +106,135 @@ class RegisterController extends Controller
  /*
  select Tasks based on input type and order by priority_status
  */
-    public function searchCriteria(Request $request)
-    {
+public function searchCriteria(Request $request)
+{
     
-    if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->taskStatus)){
+if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->taskStatus)){
 
-        return 'search term= '.$request->searchTerm;
+    // return 'search term= '.$request->searchTerm;
+    $fetchTitleOnly = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->orderBy('priority_status', 'desc')->paginate(5);
+    
+    if(count($fetchTitleOnly) > 0){
 
+    return view('pages.searchterm01', compact('fetchTitleOnly'));
+
+
+    }
+    else{
+        return redirect()->route('showSearch')->with('error', 'No result found');
+    }
+    
     }
     elseif(!empty($request->taskDate && empty($request->searchTerm) && empty($request->taskStatus))){
 
-        return 'task date= '.$request->taskDate;
+        //return 'task date= '.$request->taskDate;
+
+    $fetchTaskDateOnly = Tasks::whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+
+    if(count($fetchTaskDateOnly) > 0){
+
+        return view('pages.searchDate', compact('fetchTaskDateOnly'));
+    
+        }
+        else{
+            return redirect()->route('showSearch')->with('error', 'No result found');
+        }
+
 
     }
     elseif(!empty($request->taskStatus) && empty($request->taskDate) && empty($request->searchTerm) ){
         
-        return 'task Status= '.$request->taskStatus;
+    // return 'task Status= '.$request->taskStatus;
+    $fetchTaskStatusOnly = Tasks::where("status", "=", "" . $request->taskStatus . "")->orderBy('priority_status', 'desc')->paginate(5);
+
+    if(count($fetchTaskStatusOnly) > 0){
+
+        return view('pages.searchStatus', compact('fetchTaskStatusOnly'));
+    
+        }
+        else{
+            return redirect()->route('showSearch')->with('error', 'No result found');
+        }
+
 
     }
     elseif(!empty($request->searchTerm) && !empty($request->taskDate) && empty($request->taskStatus) ){
 
-        return 'search Term = '.$request->searchTerm.' task date='.$request->taskDate;
+    // return 'search Term = '.$request->searchTerm.' task date='.$request->taskDate;
+    $srchTermNDate = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+
+    if(count($srchTermNDate) > 0){
+
+    return view('pages.searchTrmNDate', compact('srchTermNDate'));
+    
+    }
+    else{
+        return redirect()->route('showSearch')->with('error', 'No result found');
+    }
 
     }
     elseif(!empty($request->searchTerm) && !empty($request->taskStatus) && empty($request->taskDate) ){
 
-        return 'search Term= '.$request->searchTerm.' task status= '.$request->taskStatus;
+    // return 'search Term= '.$request->searchTerm.' task status= '.$request->taskStatus;
+
+    $srchTermNStatus = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("status", "=", "" . $request->taskStatus . "")->orderBy('priority_status', 'desc')->paginate(5);
+
+    if(count($srchTermNStatus) > 0){
+
+    return view('pages.searchTermNStatus', compact('srchTermNStatus'));
+    
+    }
+    else{
+        return redirect()->route('showSearch')->with('error', 'No result found');
+    }
 
     }
     elseif(!empty($request->taskDate) && !empty($request->taskStatus) && empty($request->searchTerm) ){
 
-        return 'task Date = '.$request->taskDate.' task date= '.$request->taskStatus;
+    // return 'task Date = '.$request->taskDate.' task date= '.$request->taskStatus;
+
+    $srchDateNStatus = Tasks::where("status", "=", "" . $request->taskStatus . "")->whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+
+    if(count($srchDateNStatus) > 0){
+
+    return view('pages.searchDateNStatus', compact('srchDateNStatus'));
+    
+    }
+    else{
+        return redirect()->route('showSearch')->with('error', 'No result found');
+    }
 
     }
     elseif(!empty($request->searchTerm) && !empty($request->taskDate) && !empty($request->taskStatus) ){
 
-    return 'searchTerm = '.$request->searchTerm.' taskDate= '.$request->taskDate.' taskStatus='.$request->taskStatus;
+    // return 'searchTerm = '.$request->searchTerm.' taskDate= '.$request->taskDate.' taskStatus='.$request->taskStatus;
+
+    $srchTrmNDateNStatus = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("status", "=", "" . $request->taskStatus . "")->whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+
+    if(count($srchTrmNDateNStatus) > 0){
+
+    return view('pages.searchTrmNDateNStatus', compact('srchTrmNDateNStatus'));
+    
+    }
+    else{
+    
+    return redirect()->route('showSearch')->with('error', 'No result found');
+
+    }
+
+    }
+    elseif( last(request()->segments()) == 'search'){
+
+    return redirect()->route('showSearch')->with('error', 'Specify search criteria');
 
     }
     else{
 
-    
     return redirect()->route('showSearch')->with('error', 'Specify search criteria');
 
     }
 
-    }
+}
 
 
 /*
@@ -159,7 +242,7 @@ Show tasks
 */
 public function viewTasks(User $HasMany){
 
-$tasks =Tasks::orderBy('priority_status', 'desc')->orderBy('priority_status', 'desc')->paginate(5);
+$tasks =Tasks::orderBy('priority_status', 'desc')->paginate(5);
 return view('pages.created_tasks', compact('tasks'));
 
 

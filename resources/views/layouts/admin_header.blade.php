@@ -20,8 +20,7 @@
 </button>
                 </div>
             </div>
-            <div class="tpLogoWrap">
-            <img src="assets/images/EHCI_Logo01_dashbrd.webp" class="lgoImage" alt> <span class="lgoTxt">Task Management System</span>
+            <div class="tpLogoWrap"><span class="lgoTxt">Task Management System</span>
                 
             </div>
         </div>

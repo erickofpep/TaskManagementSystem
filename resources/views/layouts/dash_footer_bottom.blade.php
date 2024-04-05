@@ -98,7 +98,7 @@
     <select name="selectStatusInput" id="selectStatusInput" class="form-control" value="" required>
       <option value="">- select -</option>
       <option value="open">Open</option>
-      <option value="in progress">In Progress</option>
+      <option value="in_progress">In Progress</option>
       <option value="completed">Completed</option>
     </select>
     </div>
@@ -264,9 +264,9 @@
     </div>
 </div>
 
-<script type='text/javascript' src='https://code.jquery.com/jquery-3.7.0.js' id='jquery-js'></script>
+<script type='text/javascript' src="{{ asset('assets/js/jquery-3.7.0.js') }}" id='jquery-js'></script>
 
-<script type="text/javascript" src="{{ asset('assets/js/main.js<?php echo '?'.mt_rand(); ?>') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/taskms.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/procTasks.js') }}"></script>
 

@@ -51,3 +51,5 @@ Route::post('/delete_task', 'RegisterController@deleteTask')->name('delete_task'
 
 Route::post('/assign_task', 'RegisterController@assignTask')->name('assign_task')->middleware('auth');
 
+
+// Route::get('/whaturlisthis', 'RegisterController@currentURL')->name('whaturlisthis');

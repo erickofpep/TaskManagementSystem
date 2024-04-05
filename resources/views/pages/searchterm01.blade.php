@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 
 <head>
-    <title>Created Tasks - Task Management System | Touch Stack Technologies</title>
+    <title>Search Tasks - Task Management System | Touch Stack Technologies</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('layouts.head')
 </head>
@@ -19,12 +19,12 @@
                 <div class="app-main__inner">
                 <div class="tabs-animation">
                     
-                <div class="main-card mb-3 card" style="margin-bottom: 120px !important;">
+                <div class="main-card mb-3 card">
      <div class="card-body">
-      
-@include('pages/searchForm')                    
 
-<div class="col-md-12 tblWrap">
+@include('pages/searchForm')
+
+ <div class="col-md-12 tblWrap">
 
 <table class="mb-0 table table-striped">
                                             <thead>
@@ -43,7 +43,7 @@
                                             <tbody>
 @php $num=1; @endphp
 
-@foreach($tasks as $details)
+@foreach($fetchTitleOnly as $details)
                                                 <tr>
                                                     <th scope="row">@php echo $num ++ @endphp</th>
                                                     <td>@if( $details->title ) {{ $details->title }} @endif</td>
@@ -89,10 +89,11 @@ $assignedToUser= App\User::find($details->assigned_to);
 
  
   <div class="col-md-12 pgntn">
- {{ $tasks->links() }}
- </div>                                      
-</div>
- 
+ {{ $fetchTitleOnly->links() }}
+ </div>
+
+ </div>
+
        </div>
      </div>
                 
