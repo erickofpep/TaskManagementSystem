@@ -87,6 +87,41 @@ Tasks completed</div>
             </div>
         </div>
 
+        <div class="col-sm-6 col-md-4 col-xl-4">
+            <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                <div class="icon-wrapper rounded-circle">
+                    <div class="icon-wrapper-bg opacity-9 bg-success"></div>
+                    <i class="pe-7s-note2 text-white"></i>
+                </div>
+            <a href="{{ route('tasks_assigned') }}" title="Tasks completed" style="text-decoration: none;">
+                <div class="widget-chart-content">
+                    <div class="widget-subheading">
+@php $totalTsksAssigned=DB::table('tasks')->where('assigned_by',Auth::user()->id)->count();
+@endphp 
+Tasks assigned</div>
+                    <div class="widget-numbers text-success"><span>{{ $totalTsksAssigned }}</span></div>
+                </div>
+        </a>        
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-xl-4">
+            <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                <div class="icon-wrapper rounded-circle">
+                    <div class="icon-wrapper-bg opacity-9 bg-success"></div>
+                    <i class="pe-7s-note2 text-white"></i>
+                </div>
+            <a href="#" title="Tasks completed" style="text-decoration: none;">
+                <div class="widget-chart-content">
+                    <div class="widget-subheading">
+Tasks received</div>
+                    <div class="widget-numbers text-success"><span> 0</span></div>
+                </div>
+        </a>        
+            </div>
+        </div>
+
+
     </div>
     <div class="text-center d-block p-3 card-footer">
     </div>

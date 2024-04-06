@@ -17,6 +17,11 @@ class PagesController extends Controller
         return view('pages.dashboard');
     }
 
+    public function showhome()
+    {
+        return view('welcome');
+    }
+
     
     
 }

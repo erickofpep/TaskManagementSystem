@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
-
+use mysqli;
 
 class RegisterController extends Controller
 {
@@ -76,12 +76,23 @@ class RegisterController extends Controller
     public function createtask(Request $request)
     {
         $validator = $request->validate([
-            "title"    => "required|string|max:255|unique:tasks",
+            "title"    => "required|string|max:255",
             "taskdesc"  => "required|string",
             'duedate' => 'required|date'
         ]);
 
-      $task_user = new Tasks();
+/*
+check if Task title exist *****
+*/
+$NoDuplicateTaskTitle = Tasks::where("title", "=", "" . $request->title . "")->where("user_id", "=", "".Auth::id()."")->get();
+
+if(mysqli_num_rows($NoDuplicateTaskTitle) > 0){
+
+return response()->json(['success'=>$request->title.' already exist ']);
+
+}else{
+
+    $task_user = new Tasks();
  
       $task_user->title = $request->title;
       $task_user->description = $request->taskdesc;
@@ -93,6 +104,8 @@ class RegisterController extends Controller
       $task_user->save();
    
     return response()->json(['success'=>'Task added has been added by '.Auth::user()->firstname]);
+
+}
 
     }
 
@@ -112,7 +125,7 @@ public function searchCriteria(Request $request)
 if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->taskStatus)){
 
     // return 'search term= '.$request->searchTerm;
-    $fetchTitleOnly = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->orderBy('priority_status', 'desc')->paginate(5);
+    $fetchTitleOnly = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
     
     if(count($fetchTitleOnly) > 0){
 
@@ -129,7 +142,7 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
 
         //return 'task date= '.$request->taskDate;
 
-    $fetchTaskDateOnly = Tasks::whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+    $fetchTaskDateOnly = Tasks::whereDate("created_at", "=", "" . $request->taskDate . "")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
     if(count($fetchTaskDateOnly) > 0){
 
@@ -145,7 +158,7 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
     elseif(!empty($request->taskStatus) && empty($request->taskDate) && empty($request->searchTerm) ){
         
     // return 'task Status= '.$request->taskStatus;
-    $fetchTaskStatusOnly = Tasks::where("status", "=", "" . $request->taskStatus . "")->orderBy('priority_status', 'desc')->paginate(5);
+    $fetchTaskStatusOnly = Tasks::where("status", "=", "" . $request->taskStatus . "")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
     if(count($fetchTaskStatusOnly) > 0){
 
@@ -161,7 +174,7 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
     elseif(!empty($request->searchTerm) && !empty($request->taskDate) && empty($request->taskStatus) ){
 
     // return 'search Term = '.$request->searchTerm.' task date='.$request->taskDate;
-    $srchTermNDate = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+    $srchTermNDate = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->whereDate("created_at", "=", "" . $request->taskDate . "")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
     if(count($srchTermNDate) > 0){
 
@@ -177,7 +190,7 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
 
     // return 'search Term= '.$request->searchTerm.' task status= '.$request->taskStatus;
 
-    $srchTermNStatus = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("status", "=", "" . $request->taskStatus . "")->orderBy('priority_status', 'desc')->paginate(5);
+    $srchTermNStatus = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("status", "=", "" . $request->taskStatus . "")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
     if(count($srchTermNStatus) > 0){
 
@@ -193,7 +206,7 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
 
     // return 'task Date = '.$request->taskDate.' task date= '.$request->taskStatus;
 
-    $srchDateNStatus = Tasks::where("status", "=", "" . $request->taskStatus . "")->whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+    $srchDateNStatus = Tasks::where("status", "=", "" . $request->taskStatus . "")->whereDate("created_at", "=", "" . $request->taskDate . "")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
     if(count($srchDateNStatus) > 0){
 
@@ -209,7 +222,7 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
 
     // return 'searchTerm = '.$request->searchTerm.' taskDate= '.$request->taskDate.' taskStatus='.$request->taskStatus;
 
-    $srchTrmNDateNStatus = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("status", "=", "" . $request->taskStatus . "")->whereDate("created_at", "=", "" . $request->taskDate . "")->orderBy('priority_status', 'desc')->paginate(5);
+    $srchTrmNDateNStatus = Tasks::where("title", "like", "%" . $request->searchTerm . "%")->where("status", "=", "" . $request->taskStatus . "")->whereDate("created_at", "=", "" . $request->taskDate . "")->where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
     if(count($srchTrmNDateNStatus) > 0){
 
@@ -241,8 +254,9 @@ if(!empty($request->searchTerm) && empty($request->taskDate) && empty($request->
 Show tasks
 */
 public function viewTasks(User $HasMany){
+    // $getTasksAssigned = Tasks::where("assigned_by", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 
-$tasks =Tasks::orderBy('priority_status', 'desc')->paginate(5);
+$tasks =Tasks::where("user_id", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
 return view('pages.created_tasks', compact('tasks'));
 
 
@@ -371,6 +385,28 @@ return response()->json(['success'=>'Task has been assign to '.Auth::user()->fir
 }
 
 }
+
+
+/*
+Tasks Assigned ***********
+*/
+public function tasksAssigned(){
+
+    $getTasksAssigned = Tasks::where("assigned_by", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
+
+    return view('pages.taskAssigned', compact('getTasksAssigned'));
+}
+
+/*
+Tasks Assigned ***********
+*/
+public function tasksReceived(){
+
+    $getTasksReceived = Tasks::where("assigned_to", "=", "".Auth::id()."")->orderBy('priority_status', 'desc')->paginate(5);
+
+    return view('pages.taskReceived', compact('getTasksReceived'));
+}
+
 
 
 

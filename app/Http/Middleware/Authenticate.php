@@ -17,7 +17,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            return route('home');
+            
         }
     }
 
@@ -27,7 +28,7 @@ class Authenticate extends Middleware
     {
         if (!auth()->check()) {
             // User is not authenticated, redirect to the login page
-            return redirect()->route('login')->with('error', 'Please log in to access dashboard');
+            return redirect()->route('home')->with('error', 'Please log in to access dashboard');
         }
 
         // User is authenticated, allow the request to proceed

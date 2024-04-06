@@ -14,15 +14,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('/');
 
 Route::post('/register', 'RegisterController@register')->name('register');
-// Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
 Route::post('/login', 'RegisterController@user_login')->name('login');
 
-// Route::get('/dashboard', 'pages\PagesController@showdashboard')->name('dashboard')->middleware('auth');
-
-// Route::get('/dashboard', 'RegisterController@user_login')
+Route::get('/?ct=login', 'pages\PagesController@showhome')->name('home');
 
 Route::get('/dashboard', function () { return view('pages.dashboard'); })->name('dashboard')->middleware('auth');
 
@@ -51,5 +49,6 @@ Route::post('/delete_task', 'RegisterController@deleteTask')->name('delete_task'
 
 Route::post('/assign_task', 'RegisterController@assignTask')->name('assign_task')->middleware('auth');
 
+Route::get('/tasks_assigned', 'RegisterController@tasksAssigned')->name('tasks_assigned')->middleware('auth');
 
-// Route::get('/whaturlisthis', 'RegisterController@currentURL')->name('whaturlisthis');
+Route::get('/tasks_received', 'RegisterController@tasksReceived')->name('tasks_received')->middleware('auth');

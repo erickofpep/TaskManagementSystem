@@ -78,5 +78,11 @@
                 </div>
             </div>
             @include('layouts.footer')
+
+<script src="//js.pusher.com/2.2/pusher.min.js"></script>
+<script>
+    var pusher = new Pusher("{{ env('9f64c0d98a394e50bcd3') }}");
+</script>
+<script src="js/pusher.js"></script>
     </body>
 </html>

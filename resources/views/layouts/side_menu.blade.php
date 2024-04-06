@@ -64,18 +64,26 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Menu</li>
             <li>
-            <a href="/dashboard">
+            <a href="{{ route('dashboard') }}">
 <i class="metismenu-icon pe-7s-settings"></i>Home
 <i class="metismenu-state-icon caret-left"></i>
 </a>
                             </li>
                             <li><a href="{{ route('showCreatedTasks') }}">
-                            <i class="metismenu-icon pe-7s-note2"></i>Tasks
+                            <i class="metismenu-icon pe-7s-note2"></i>Tasks created
 <i class="metismenu-state-icon caret-left"></i>
 </a></li>
 
 <li class="taskBtn" title="Add a Task"><a>
 <i class="metismenu-icon pe-7s-id"></i>Add Task
+</a></li>
+
+<li class="" title="Tasks assigned"><a href="{{ route('tasks_assigned') }}">
+<i class="metismenu-icon pe-7s-id"></i>Tasks assigned
+</a></li>
+
+<li class="" title="Tasks received"><a href="{{ route('tasks_received') }}">
+<i class="metismenu-icon pe-7s-id"></i>Tasks received
 </a></li>
 
                         </ul>

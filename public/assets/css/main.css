@@ -44046,6 +44046,10 @@ https://css-loaders.com/pulsing/#l6
     text-decoration: none !important;
 }
 
+.bckToPrev_mrgn {
+    margin-bottom: 25px;
+}
+
 .priorityBtn {
     cursor: pointer;
 }
