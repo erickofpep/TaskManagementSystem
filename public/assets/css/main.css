@@ -43962,6 +43962,20 @@ Msg Prompt Modal
     cursor: pointer;
 }
 
+.closeErrorMsg {
+    color: #000;
+    float: right;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.closeErrorMsg:hover,
+.closeErrorMsg:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .infost {
     font-size: 1.3em;
     font-weight: normal;

@@ -86,9 +86,9 @@ check if Task title exist *****
 */
 $NoDuplicateTaskTitle = Tasks::where("title", "=", "" . $request->title . "")->where("user_id", "=", "".Auth::id()."")->get();
 
-if(mysqli_num_rows($NoDuplicateTaskTitle) > 0){
+if(count($NoDuplicateTaskTitle) > 0){
 
-return response()->json(['success'=>$request->title.' already exist ']);
+return response()->json(['error'=>$request->title.' already exist ']);
 
 }else{
 

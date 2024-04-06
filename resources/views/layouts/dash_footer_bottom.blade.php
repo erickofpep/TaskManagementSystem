@@ -231,6 +231,18 @@
 
 
 
+<!--Error Message Modal -->
+<div id="ErrorMsgModal" class="modalMsg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="closeErrorMsg" id="closeErrorMsg">&times;</span>
+    </div>
+    <div class="modal-body MsgPrompt">
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>
 
 
 <div class="app-wrapper-footer ftrNav">
@@ -332,29 +344,46 @@ $('.MsgPrompt').text('Please enter Due date');
                    cache : false,
                    success: function(data){
 
-$('.editCntnt').addClass("loader").text("Loading..");
+if(data.success){
 
-setTimeout(function() {
+  $('.editCntnt').addClass("loader").text("Loading..");
 
-  $('#AddTaskModal').fadeOut();  
-  $('.editCntnt').removeClass("loader"); 
+  setTimeout(function() {
+
+$('#AddTaskModal').fadeOut();  
+$('.editCntnt').removeClass("loader"); 
 
 }, 1000);
 
 $('#MsgModalSucc').fadeIn();
 $('.MsgPrompt').text(data.success);
+
+setTimeout(function() {
+  $('#MsgModalSucc').fadeOut();
+   location.reload();
+}, 3000);
+
+$('#Title').val('');
+  $('#Description').val('');
+  $('#Duedate').val('');
+
+}
+else if(data.error){
   
-  setTimeout(function() {
-    $('#MsgModalSucc').fadeOut();
-     location.reload();
-  }, 3000);
-                       
+$('#ErrorMsgModal').fadeIn();
+$('.MsgPrompt').text(data.error);
+
+setTimeout(function() {
+  $('#ErrorMsgModal').fadeOut();
+}, 3000);
+
+}
+          
     }
     });
 
       }
     });
-
 
 
 // Set Priority ***************
@@ -490,7 +519,6 @@ $('.MsgPrompt').text(data.success);
     });
 
 
-    
 // Assing Task trigger ***************
 $(".AsgnTaskOKBtn").on("click", function(e) {
     e.preventDefault();

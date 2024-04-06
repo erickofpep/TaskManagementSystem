@@ -22,6 +22,10 @@ $(".closeMsg").on("click", function() {
 });
 
 
+$("#closeErrorMsg").on("click", function() {
+    $('#ErrorMsgModal').fadeOut();
+});
+
 
 var SetPriorityModal = document.getElementById("SetPriorityModal");
 $(".priorityBtn").on("click", function() {

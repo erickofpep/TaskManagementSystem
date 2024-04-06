@@ -111,11 +111,13 @@ Tasks assigned</div>
                     <div class="icon-wrapper-bg opacity-9 bg-success"></div>
                     <i class="pe-7s-note2 text-white"></i>
                 </div>
-            <a href="#" title="Tasks completed" style="text-decoration: none;">
+            <a href="{{ route('tasks_received') }}" title="Tasks completed" style="text-decoration: none;">
                 <div class="widget-chart-content">
                     <div class="widget-subheading">
+@php $totalTsksRcvd=DB::table('tasks')->where('assigned_to',Auth::user()->id)->count();
+@endphp 
 Tasks received</div>
-                    <div class="widget-numbers text-success"><span> 0</span></div>
+                    <div class="widget-numbers text-success"><span> {{ $totalTsksRcvd }}</span></div>
                 </div>
         </a>        
             </div>
