@@ -82,17 +82,13 @@
    @endif   
 </td>
 <td class="tdCntr">
-@if( empty($details->assigned_by) ) <span class="assngTsk assngTskBtn" id="{{ $details->id }}">assign task</span> @else
+@if(empty($details->assigned_by) )<span class="assngTsk assngTskBtn" id="{{ $details->id }}">assign task</span>
+@else
 @php 
 $assignedByUser= App\User::find($details->assigned_by);
-@endphp
-<div class="asgnTxt assngTskBtn">assigned by: <br /><b>{{ $assignedByUser->firstname }} {{ $assignedByUser->lastname }}</b></div>
-@endif
-
-@if( empty($details->assigned_to) ) <span class="assngTsk assngTskBtn" id="{{ $details->id }}">assign task</span> @else
-@php 
 $assignedToUser= App\User::find($details->assigned_to);
 @endphp
+<div class="asgnTxt assngTskBtn">assigned by: <br /><b>{{ $assignedByUser->firstname }} {{ $assignedByUser->lastname }}</b></div>
 <div class="asgnTxt assngTskBtn">assigned to: <br /><b>{{ $assignedToUser->firstname }} {{ $assignedToUser->lastname }}</b></div>
 @endif
 </td>
